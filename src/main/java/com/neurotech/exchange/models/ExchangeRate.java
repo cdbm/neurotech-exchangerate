@@ -14,13 +14,13 @@ import lombok.Setter;
 @Setter
 public class ExchangeRate {
 	private @Id @GeneratedValue Long id;
-    private long USDcents;
+    private String valueInUSD;
     private Date fetchedAt;
     
     public ExchangeRate() {}
     
-    public ExchangeRate(long USDcents, Date fecthedAt) {
-    	this.USDcents = USDcents;
+    public ExchangeRate(String valueInUSD, Date fecthedAt) {
+    	this.valueInUSD = valueInUSD;
     	this.fetchedAt = fecthedAt;
     }
 }

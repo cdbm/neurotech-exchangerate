@@ -6,13 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.neurotech.exchange.fixercurrencyapi.FixerCurrencyClient;
+import com.neurotech.exchange.models.ExchangeRate;
+import com.neurotech.exchange.repository.ExchangeRateRepository;
 
 @Service
 public class ExchangeRateService {
 	@Autowired
-	private FixerCurrencyClient client;
+	private ExchangeRateRepository repository;
 	
-	public void getCurrentExchangeRate() throws IOException, InterruptedException {
-		this.client.getCurrentRate();
+	public ExchangeRate getCurrentExchangeRate() throws IOException, InterruptedException {
+		return this.repository.findFirstByOrderByIdDesc();
 	}
 }
