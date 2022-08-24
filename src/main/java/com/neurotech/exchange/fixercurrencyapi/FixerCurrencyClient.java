@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -27,8 +29,8 @@ public class FixerCurrencyClient {
 		
 	}
 	
-	@Scheduled(fixedRate = 60 * 1000)
-	public void getCurrentRate() throws IOException, InterruptedException {
+	@Scheduled(fixedRate = 60* 1000)
+	public void fetchCurrentRate() throws IOException, InterruptedException {
 		HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create("https://v6.exchangerate-api.com/v6/6fac894f903fa57e9c338834/latest/BRL"))
 				.method("GET", HttpRequest.BodyPublishers.noBody())
@@ -36,14 +38,19 @@ public class FixerCurrencyClient {
 		HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 		String body = response.body();
 
-		int x = body.indexOf("USD");
-		String substring = body.substring(x+5, x+20);
-		
-		String USDvalue = substring.split(",")[0];
+		String USDvalue = getUsdValue(body);
 		System.out.println(USDvalue);
 		ExchangeRate rate = new ExchangeRate(USDvalue, new Date());
 		
 		this.repository.save(rate);
+	}
+
+	private String getUsdValue(String body) {
+		int x = body.indexOf("USD");
+		String substring = body.substring(x+5, x+20);
+		
+		String USDvalue = substring.split(",")[0];
+		return USDvalue;
 	}
 	
 }
