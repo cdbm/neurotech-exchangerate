@@ -1,4 +1,4 @@
-package com.neurotech.exchange.fixercurrencyapi;
+package com.neurotech.exchange.api;
 
 
 
@@ -20,12 +20,12 @@ import com.neurotech.exchange.models.ExchangeRate;
 import com.neurotech.exchange.repository.ExchangeRateRepository;
 
 @Component
-public class FixerCurrencyClient {
+public class APIClient {
 	
 	@Autowired
 	ExchangeRateRepository repository;
 
-	FixerCurrencyClient(){
+	APIClient(){
 		
 	}
 	
